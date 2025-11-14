@@ -10,7 +10,6 @@ import { z } from "zod";
 import { ClipLoader } from "react-spinners";
 import { useSelector } from "react-redux";
 
-
 const Investmentpay = () => {
   const navigate = useNavigate();
   const [amount, setAmount] = useState(0.0);
@@ -19,18 +18,16 @@ const Investmentpay = () => {
   // const [userPlan, setUserPlan] = useState([]);
   // const [selectedPackage, setSelectedPackage] = useState(null);
   const [planPrice, setPlanPrice] = useState(0);
-  const [laoding, setLoading] = useState(false)
+  const [laoding, setLoading] = useState(false);
 
-  const userId = useSelector((state) => state.id)
-  const selectedPackage = useSelector((state) => state.userPlan)
-  console.log(userId)
+  const userId = useSelector((state) => state.id);
+  const selectedPackage = useSelector((state) => state.userPlan);
+  console.log(userId);
 
   const User = z.object({
-    check: z
-      .boolean()
-      .refine((val) => val === true, {
-        message: "You must accept the terms and conditions",
-      }),
+    check: z.boolean().refine((val) => val === true, {
+      message: "You must accept the terms and conditions",
+    }),
   });
 
   const {
@@ -91,28 +88,28 @@ const Investmentpay = () => {
       toast.error("Plan and amount are required");
     }
   });
-  
+
   const data = {
     amount: amount,
     planId: selectedPackage?._id,
-    
-  }
+  };
 
-  const handleProceed = async() => {
-    const url = `https://unixswap-coin-api.vercel.app/api/invest/${userId}`
-      setLoading(true)
-      axios.post(url, data)
-      .then(res => {
-          setLoading(false)
-          toast.success(res.data.message)
-          setOpenModal(false)
-          Nav(-1)
-      }).catch((err)=>{
-          setLoading(false)
-          toast.error(err.response.data.message)
-        console.log("eee",err)
+  const handleProceed = async () => {
+    const url = `https://ultima-finances-backend.vercel.app/api/invest/${userId}`;
+    setLoading(true);
+    axios
+      .post(url, data)
+      .then((res) => {
+        setLoading(false);
+        toast.success(res.data.message);
+        setOpenModal(false);
+        Nav(-1);
       })
-    
+      .catch((err) => {
+        setLoading(false);
+        toast.error(err.response.data.message);
+        console.log("eee", err);
+      });
   };
 
   return (
@@ -158,14 +155,8 @@ const Investmentpay = () => {
             </div>
           </div>
           <div className="w-full h-max flex items-center">
-            <input
-              type="checkbox"
-              className="w-6 h-6"
-              {...register("check")}
-            />
-            <p className="ml-2 text-sm">
-              I agree to the terms and conditions
-            </p>
+            <input type="checkbox" className="w-6 h-6" {...register("check")} />
+            <p className="ml-2 text-sm">I agree to the terms and conditions</p>
             {errors?.check && (
               <span style={{ color: "red" }}>{errors.check.message}</span>
             )}
@@ -181,7 +172,10 @@ const Investmentpay = () => {
             <div className="w-full h-max flex flex-col justify-between">
               <p className="w-full h-max text-xs gap-1 text-[#8094ae]">
                 Selected Plan
-                <span className="text-[#526484] text-sm"> {selectedPackage?.planName || "None"}</span>
+                <span className="text-[#526484] text-sm">
+                  {" "}
+                  {selectedPackage?.planName || "None"}
+                </span>
               </p>
             </div>
           </div>
@@ -198,14 +192,19 @@ const Investmentpay = () => {
             </p>
           </div>
           <div className="w-full h-max flex justify-between p-6 border-b border-b-gray-300">
-            <p className="w-[70%] text-xs text-[#8094ae]">Percentage Interest</p>
+            <p className="w-[70%] text-xs text-[#8094ae]">
+              Percentage Interest
+            </p>
             <p className="w-[30%] text-sm text-[#526484]">
               {selectedPackage?.percentageInterest || "0"}%
             </p>
           </div>
           <div className="w-full h-max flex justify-between p-6 border-b border-b-gray-300">
             <p className="w-[70%] text-xs text-[#8094ae]">Durationc Days</p>
-            <p className="w-[30%] text-sm text-[#526484]">{selectedPackage?.durationDays} {selectedPackage?.durationDays > 1 ? "Days" : "Day"}</p>
+            <p className="w-[30%] text-sm text-[#526484]">
+              {selectedPackage?.durationDays}{" "}
+              {selectedPackage?.durationDays > 1 ? "Days" : "Day"}
+            </p>
           </div>
           <div className="w-full h-20 flex items-center justify-center bg-[#f5f6fa]">
             <button
@@ -228,17 +227,19 @@ const Investmentpay = () => {
         <div className="flex flex-col items-center gap-4">
           <p>Confirm Your Investment</p>
           <p className="text-center">
-            This is to confirm your investment of ${amount} {" "}
-             {selectedPackage?.planName || "None"}. Please cancel
-            if you did not initiate the transaction.
+            This is to confirm your investment of ${amount}{" "}
+            {selectedPackage?.planName || "None"}. Please cancel if you did not
+            initiate the transaction.
           </p>
           <button
             className="px-5 py-2 rounded text-white font-semibold bg-[#a286f4]"
             onClick={handleProceed}
           >
-             { laoding ? <ClipLoader color='white' className="hover:bg-#a286f4" /> :
-                               " Proceed" 
-                               } 
+            {laoding ? (
+              <ClipLoader color="white" className="hover:bg-#a286f4" />
+            ) : (
+              " Proceed"
+            )}
           </button>
           <button
             className="px-5 py-2 rounded border border-[#a286f4] text-[#a286f4]"
