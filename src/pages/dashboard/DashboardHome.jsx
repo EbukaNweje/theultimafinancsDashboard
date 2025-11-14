@@ -32,10 +32,8 @@ const DashboardHome = () => {
   const [userDatas, setUserDatas] = useState({});
   const [exchangeRate, setExchangeRate] = useState(null);
   const [loading, setLoading] = useState(false);
-  // const userName = userDatas?.userName
-  // console.log("this is UserName", userName)
   const [state, setState] = useState({
-    value: `https://unixswap-coin.vercel.app/ref/`,
+    value: `https://theultimafinancs.vercel.app/`,
     copied: false,
   });
 
