@@ -1,7 +1,8 @@
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { MdInfo } from "react-icons/md";
-import qr from "../../assets/qr.jpeg";
-import qrr from "../../assets/qrr.jpeg";
+import Bitcoin from "../../assets/BTC.jpg";
+import Ethereum from "../../assets/ETH.jpg";
+import USDT from "../../assets/USDT.jpg";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
@@ -18,7 +19,11 @@ const DepositPay = () => {
 
   const [laoding, setLoading] = useState(false);
   const [userDatas, setUserDatas] = useState();
-  const [wallets, setWallets] = useState(null);
+  const [wallets, setWallets] = useState([
+    { walletName: "Bitcoin" },
+    { walletName: "Ethereum" },
+    { walletName: "USDT" },
+  ]);
   const [pay, setPay] = useState();
   const [h, setH] = useState();
   const [coin, setCoin] = useState();
@@ -29,27 +34,27 @@ const DepositPay = () => {
 
   //   wallets?.map((props)=> {walletInfo.wallet === props.walletName ? setH(props?.walletName) : "Loading...";})
 
-  const handlegetallWalletAddress = async () => {
-    await axios
-      .get("https://ultima-finances-backend.vercel.app/api/getallWalletAddress")
-      .then((response) => {
-        setWallets(response?.data?.data);
-        // dispatch(userData(response?.data.data));
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-  useEffect(() => {
-    if (wallets && walletInfo) {
-      wallets.forEach((props) => {
-        if (walletInfo.wallet === props.walletName) {
-          setH(props?.walletAddress);
-          setCoin(props?.coin);
-        }
-      });
-    }
-  }, [wallets, walletInfo]);
+  // const handlegetallWalletAddress = async () => {
+  //   await axios
+  //     .get("https://ultima-finances-backend.vercel.app/api/getallWalletAddress")
+  //     .then((response) => {
+  //       setWallets(response?.data?.data);
+  //       // dispatch(userData(response?.data.data));
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
+  // useEffect(() => {
+  //   if (wallets && walletInfo) {
+  //     wallets.forEach((props) => {
+  //       if (walletInfo.wallet === props.walletName) {
+  //         setH(props?.walletAddress);
+  //         setCoin(props?.coin);
+  //       }
+  //     });
+  //   }
+  // }, [wallets, walletInfo]);
 
   useEffect(() => {
     setState((prevState) => ({
@@ -57,7 +62,7 @@ const DepositPay = () => {
       value: h,
       coin,
     }));
-    handlegetallWalletAddress();
+    // handlegetallWalletAddress();
   }, [h, coin]);
 
   const handleGetUser = async () => {
@@ -138,23 +143,25 @@ const DepositPay = () => {
             <MdInfo color="#364a63" size={15} />
             Copy and send this exact amount, to the payment address below.
           </div>
-          {/* <div className="w-full h-44 flex items-center justify-center border-t border-t-gray-300 p-2">
-                        {
-                            walletInfo?.wallet === "Bitcoin" ? 
-                            <img
-                            src={qr}
-                            alt=""
-                            className="w-full h-full object-contain"
-                        /> : 
-                        <img
-                        src={qrr}
-                        alt=""
-                        className="w-full h-full object-contain"
-                    /> 
-                        }
-                    </div> */}
+          <div className="w-full h-44 flex items-center justify-center border-t border-t-gray-300 p-2">
+            {walletInfo?.wallet === "Bitcoin" ? (
+              <img
+                src={Bitcoin}
+                alt=""
+                className="w-full h-full object-contain"
+              />
+            ) : walletInfo?.wallet === "USDT" ? (
+              <img src={USDT} alt="" className="w-full h-full object-contain" />
+            ) : (
+              <img
+                src={Ethereum}
+                alt=""
+                className="w-full h-full object-contain"
+              />
+            )}
+          </div>
           <div className="w-full h-max flex flex-col border-t border-t-gray-300 p-4">
-            <div className="w-full flex flex-col gap-2">
+            {/* <div className="w-full flex flex-col gap-2">
               <p>{walletInfo?.wallet} Payment Address*</p>
               <input
                 type="text"
@@ -170,7 +177,7 @@ const DepositPay = () => {
                   {state.copied ? "copied" : "Copy Wallet"}
                 </button>
               </CopyToClipboard>
-            </div>
+            </div> */}
 
             <div className="w-full flex flex-col gap-2">
               <p>Amount *</p>
@@ -181,7 +188,7 @@ const DepositPay = () => {
                 value={`$${walletInfo?.amount}`}
               />
             </div>
-            <div className="w-full flex flex-col gap-2">
+            {/* <div className="w-full flex flex-col gap-2">
               <p>Bitcoin Equivalent*</p>
               <input
                 type="text"
@@ -189,7 +196,7 @@ const DepositPay = () => {
                 className="w-full h-10 bg-[#f5f6fa] outline-none rounded border-gray-300 border pl-3"
                 value={walletInfo?.roundedNumber}
               />
-            </div>
+            </div> */}
           </div>
           <div className="w-full h-max flex border-t border-t-gray-300 p-4">
             <div className="w-full h-max flex justify-between py-2">
@@ -234,12 +241,12 @@ const DepositPay = () => {
                   <span className="text-[#526484] text-sm">$50</span>
                 </p>
 
-                <p className="w-[45%] h-max flex flex-col text-xs gap-1 text-[#8094ae]">
+                {/* <p className="w-[45%] h-max flex flex-col text-xs gap-1 text-[#8094ae]">
                   Bitcoin Equivalence
                   <span className="text-[#526484] text-sm">
                     {walletInfo?.roundedNumber}
                   </span>
-                </p>
+                </p> */}
               </div>
             </div>
           </div>

@@ -17,7 +17,11 @@ const Deposit = () => {
   const [wallet, setWallet] = useState("");
   const [exchangeRate, setExchangeRate] = useState(null);
   const [openModal, setOpenModal] = useState(false);
-  const [wallets, setWallets] = useState(null);
+  const [wallets, setWallets] = useState([
+    { walletName: "Bitcoin" },
+    { walletName: "Ethereum" },
+    { walletName: "USDT" },
+  ]);
 
   const User = z;
   //   .object({ check: z.boolean().refine((val) => val === true, {
@@ -65,23 +69,23 @@ const Deposit = () => {
   const roundedNumber = parseFloat(bitcoinValue.toFixed(8));
 
   const handleProceed = () => {
-    dispacth(walletInfo({ amount, wallet, roundedNumber }));
+    dispacth(walletInfo({ amount, wallet, wallets, roundedNumber }));
     navigate("/dashboard/deposit-pay");
   };
 
-  const handlegetallWalletAddress = async () => {
-    await axios
-      .get("https://ultima-finances-backend.vercel.app/api/getallWalletAddress")
-      .then((response) => {
-        setWallets(response?.data?.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-  useEffect(() => {
-    handlegetallWalletAddress();
-  }, []);
+  // const handlegetallWalletAddress = async () => {
+  //   await axios
+  //     .get("https://ultima-finances-backend.vercel.app/api/getallWalletAddress")
+  //     .then((response) => {
+  //       setWallets(response?.data?.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
+  // useEffect(() => {
+  //   handlegetallWalletAddress();
+  // }, []);
 
   const Nav = useNavigate();
   return (
